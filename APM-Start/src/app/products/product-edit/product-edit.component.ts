@@ -1,10 +1,11 @@
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, ParamMap, Params, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 
 import { MessageService } from '../../messages/message.service';
 
 import { Product } from '../product';
 import { ProductService } from '../product.service';
+import { Subject, Subscription } from 'rxjs';
 
 @Component({
   templateUrl: './product-edit.component.html',
@@ -16,15 +17,22 @@ export class ProductEditComponent implements OnInit {
 
   product: Product;
 
+  private paramId$: Subscription;
+
   constructor(
     private productService: ProductService,
     private messageService: MessageService,
-    private readonly activatedRoute: ActivatedRoute
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly router: Router
   ) { }
 
   ngOnInit(): void {
-    const id: number = Number(this.activatedRoute.snapshot.paramMap.get('id'));
-    this.getProduct(id);
+    this.paramId$ = this.activatedRoute.paramMap.subscribe(
+      (params: ParamMap) => {
+        const id = Number(params.get('id'));
+        this.getProduct(id);
+      }
+    )
   }
 
   getProduct(id: number): void {
@@ -86,5 +94,6 @@ export class ProductEditComponent implements OnInit {
     }
 
     // Navigate back to the product list
+    this.router.navigate(['/products'])
   }
 }

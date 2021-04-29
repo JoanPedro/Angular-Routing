@@ -82,9 +82,8 @@ export class ProductService {
     return throwError(errorMessage);
   }
 
-  private initializeProduct(): Product {
+  private initializeProduct = (): Product => ({
     // Return an initialized object
-    return {
       id: 0,
       productName: null,
       productCode: null,
@@ -95,6 +94,5 @@ export class ProductService {
       description: null,
       starRating: null,
       imageUrl: null
-    };
-  }
+  })
 }
