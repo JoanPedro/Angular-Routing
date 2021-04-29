@@ -9,7 +9,7 @@ import { ProductService } from './product.service';
   styleUrls: ['./product-list.component.css']
 })
 export class ProductListComponent implements OnInit {
-  pageTitle = 'Product List';
+  pageTitle = '';
   imageWidth = 50;
   imageMargin = 2;
   showImage = false;
@@ -35,6 +35,7 @@ export class ProductListComponent implements OnInit {
   ngOnInit(): void {
     this.listFilter = this.activatedRoute.snapshot.queryParamMap.get('filterBy') || '';
     this.showImage = this.activatedRoute.snapshot.queryParamMap.get('showImage') === 'true';
+    this.pageTitle = this.activatedRoute.data['value']['pageTitle'];
 
     this.productService.getProducts().subscribe({
       next: products => {
