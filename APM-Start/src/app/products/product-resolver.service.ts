@@ -1,3 +1,4 @@
+import { catchError, map } from 'rxjs/operators';
 import { ProductService } from './product.service';
 import { ProductResolved } from './product';
 import { Injectable } from '@angular/core';
@@ -22,6 +23,14 @@ export class ProductResolveGuard implements Resolve<ProductResolved> {
       return of({ product: null, error: errorMessage })
     }
 
-    return this.productService.getProduct(Number(id));
+    return this.productService.getProduct(Number(id))
+      .pipe(
+        map(product => product),
+        catchError(error => {
+          const errorMessage = `Retrieval error: ${error}`;
+          console.log(errorMessage);
+          return of({ product: null, error: errorMessage })
+        })
+      );
   }
 }
