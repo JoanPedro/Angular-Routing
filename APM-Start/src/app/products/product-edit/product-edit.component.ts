@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
 
 import { MessageService } from '../../messages/message.service';
 
@@ -9,14 +10,22 @@ import { ProductService } from '../product.service';
   templateUrl: './product-edit.component.html',
   styleUrls: ['./product-edit.component.css']
 })
-export class ProductEditComponent {
+export class ProductEditComponent implements OnInit {
   pageTitle = 'Product Edit';
   errorMessage: string;
 
   product: Product;
 
-  constructor(private productService: ProductService,
-              private messageService: MessageService) { }
+  constructor(
+    private productService: ProductService,
+    private messageService: MessageService,
+    private readonly activatedRoute: ActivatedRoute
+  ) { }
+
+  ngOnInit(): void {
+    const id: number = Number(this.activatedRoute.snapshot.paramMap.get('id'));
+    this.getProduct(id);
+  }
 
   getProduct(id: number): void {
     this.productService.getProduct(id).subscribe({
