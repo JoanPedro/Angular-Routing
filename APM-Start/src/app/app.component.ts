@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Component } from '@angular/core';
 
 import { AuthService } from './user/auth.service';
@@ -21,10 +22,18 @@ export class AppComponent {
     return '';
   }
 
-  constructor(private authService: AuthService) { }
+  constructor(
+    private readonly authService: AuthService,
+    private readonly route: Router
+  ) { }
 
   logOut(): void {
     this.authService.logout();
     console.log('Log out');
+    //  https:localhost:4200/products(popup:messages)
+    // this.route.navigate(['/welcome'])
+    //  result => https:localhost:4200/welcome(popup:messages)
+    this.route.navigateByUrl('/welcome')
+    //  result => https:localhost:4200/welcome
   }
 }
