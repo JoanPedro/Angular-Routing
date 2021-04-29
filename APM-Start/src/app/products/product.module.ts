@@ -1,3 +1,4 @@
+import { ProductResolveGuard } from './product-resolver.service';
 import { NgModule } from '@angular/core';
 
 import { ProductListComponent } from './product-list.component';
@@ -11,7 +12,7 @@ import { RouterModule } from '@angular/router';
   imports: [
     SharedModule,
     RouterModule.forChild([
-      { path: 'products', component: ProductListComponent, data: { pageTitle: 'Product List'} },
+      { path: 'products', component: ProductListComponent },
       { path: 'products/:id', component: ProductDetailComponent },
       { path: 'products/:id/edit', component: ProductEditComponent }
     ])
@@ -20,6 +21,8 @@ import { RouterModule } from '@angular/router';
     ProductListComponent,
     ProductDetailComponent,
     ProductEditComponent
+  ], providers: [
+    ProductResolveGuard
   ]
 })
 export class ProductModule { }
