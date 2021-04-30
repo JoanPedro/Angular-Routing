@@ -1,3 +1,4 @@
+import { ProductCanDeactivateGuard } from './product-edit/product-edit.guard';
 import { AuthGuard } from './../user/auth.guard';
 import { ProductEditTagsComponent } from './product-edit/product-edit-tags.component';
 import { ProductEditInfoComponent } from './product-edit/product-edit-info.component';
@@ -14,7 +15,7 @@ const routes: Routes = [
       { path: '', component: ProductListComponent },
       { path: ':id', component: ProductDetailComponent, resolve: { resolvedData: ProductResolveGuard } },
       {
-        path: ':id/edit', component: ProductEditComponent, resolve: { resolvedData: ProductResolveGuard },
+        path: ':id/edit', component: ProductEditComponent, canDeactivate: [ProductCanDeactivateGuard], resolve: { resolvedData: ProductResolveGuard },
         children: [
           { path: '', redirectTo: 'info', pathMatch: 'full' },
           { path: 'info', component: ProductEditInfoComponent },

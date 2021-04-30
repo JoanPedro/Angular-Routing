@@ -16,16 +16,31 @@ export class ProductEditComponent implements OnInit {
   pageTitle = 'Product Edit';
   errorMessage: string;
 
-  product: Product;
-
-  private resolvedData$: Subscription;
   private dataIsValid: { [key: string]: boolean }
+  private currentProduct: Product;
+  private originalProduct: Product;
+  private resolvedData$: Subscription;
+
   constructor(
     private productService: ProductService,
     private messageService: MessageService,
     private readonly activatedRoute: ActivatedRoute,
     private readonly router: Router
   ) { }
+
+  get isDirty(): boolean {
+    return JSON.stringify(this.originalProduct) !== JSON.stringify(this.currentProduct);
+  }
+
+  get product(): Product {
+    return this.currentProduct;
+  }
+
+  set product(value: Product) {
+    this.currentProduct = value;
+
+    this.originalProduct = Object.assign({}, this.currentProduct);
+  }
 
   ngOnInit(): void {
     this.resolvedData$ = this.activatedRoute.data.subscribe({
