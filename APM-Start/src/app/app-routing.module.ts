@@ -1,5 +1,5 @@
 import { AuthGuard } from './user/auth.guard';
-import { Routes, RouterModule } from '@angular/router';
+import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 import { NgModule } from '@angular/core';
 
 import { WelcomeComponent } from './home/welcome.component';
@@ -8,13 +8,18 @@ import { lazyLoadProducts } from './products/product-lazy';
 
 const routes: Routes = [
   { path: 'welcome', component: WelcomeComponent },
-  { path: 'products', loadChildren: lazyLoadProducts, canLoad: [AuthGuard] },
+  { path: 'products', loadChildren: lazyLoadProducts, canActivate: [AuthGuard] },
   { path: '', redirectTo: 'welcome', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(
+    routes,
+    {
+      preloadingStrategy: PreloadAllModules
+    }
+  )],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
