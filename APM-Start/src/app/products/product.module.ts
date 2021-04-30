@@ -1,3 +1,5 @@
+import { ProductEditTagsComponent } from './product-edit/product-edit-tags.component';
+import { ProductEditInfoComponent } from './product-edit/product-edit-info.component';
 import { ProductResolveGuard } from './product-resolver.service';
 import { NgModule } from '@angular/core';
 
@@ -14,13 +16,23 @@ import { RouterModule } from '@angular/router';
     RouterModule.forChild([
       { path: 'products', component: ProductListComponent },
       { path: 'products/:id', component: ProductDetailComponent, resolve: { resolvedData: ProductResolveGuard } },
-      { path: 'products/:id/edit', component: ProductEditComponent, resolve: { resolvedData: ProductResolveGuard } }
+      {
+        path: 'products/:id/edit', component: ProductEditComponent, resolve: { resolvedData: ProductResolveGuard },
+        children: [
+          { path: '', redirectTo: 'info', pathMatch: 'full' },
+          { path: 'info', component: ProductEditInfoComponent },
+          { path: 'tag', component: ProductEditTagsComponent }
+        ]
+
+      }
     ])
   ],
   declarations: [
     ProductListComponent,
     ProductDetailComponent,
-    ProductEditComponent
+    ProductEditComponent,
+    ProductEditInfoComponent,
+    ProductEditTagsComponent
   ], providers: [
     ProductResolveGuard
   ]
