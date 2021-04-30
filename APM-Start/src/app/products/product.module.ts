@@ -21,7 +21,7 @@ import { RouterModule } from '@angular/router';
         children: [
           { path: '', redirectTo: 'info', pathMatch: 'full' },
           { path: 'info', component: ProductEditInfoComponent },
-          { path: 'tag', component: ProductEditTagsComponent }
+          { path: 'tags', component: ProductEditTagsComponent }
         ]
 
       }
