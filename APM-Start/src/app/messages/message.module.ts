@@ -1,3 +1,4 @@
+import { MessageRoutingModule } from './message-routing.module';
 import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 
@@ -8,9 +9,7 @@ import { MessageComponent } from './message.component';
 @NgModule({
   imports: [
     SharedModule,
-    RouterModule.forChild([
-      { path: 'messages', component: MessageComponent, outlet: 'popup' }
-    ])
+    MessageRoutingModule
   ],
   declarations: [
     MessageComponent
