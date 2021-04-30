@@ -1,4 +1,5 @@
-import { ActivatedRoute, ParamMap, Params, Router } from '@angular/router';
+import { ProductResolved } from './../product';
+import { ActivatedRoute, ParamMap, Params, Router, Data } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 
 import { MessageService } from '../../messages/message.service';
@@ -17,7 +18,7 @@ export class ProductEditComponent implements OnInit {
 
   product: Product;
 
-  private paramId$: Subscription;
+  private resolvedData$: Subscription;
 
   constructor(
     private productService: ProductService,
@@ -27,22 +28,23 @@ export class ProductEditComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.paramId$ = this.activatedRoute.paramMap.subscribe(
-      (params: ParamMap) => {
-        const id = Number(params.get('id'));
-        this.getProduct(id);
+    this.resolvedData$ = this.activatedRoute.data.subscribe({
+      next: (data: Data) => {
+        const resolvedData: ProductResolved = data['resolvedData'];
+        this.errorMessage = resolvedData.error;
+        this.onProductRetrieved(resolvedData.product);
       }
-    )
+    })
   }
 
   getProduct(id: number): void {
     this.productService.getProduct(id).subscribe({
-      next: product => this.onProductRetrieved(product),
+      next: this.onProductRetrieved,
       error: err => this.errorMessage = err
     });
   }
 
-  onProductRetrieved(product: Product): void {
+  onProductRetrieved: (product: Product) => void = product => {
     this.product = product;
 
     if (!this.product) {

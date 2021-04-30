@@ -25,7 +25,7 @@ export class ProductResolveGuard implements Resolve<ProductResolved> {
 
     return this.productService.getProduct(Number(id))
       .pipe(
-        map(product => product),
+        map(product => ({ product })), // { product, error: undefined }
         catchError(error => {
           const errorMessage = `Retrieval error: ${error}`;
           console.log(errorMessage);
