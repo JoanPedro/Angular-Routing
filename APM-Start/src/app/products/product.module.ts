@@ -14,17 +14,20 @@ import { RouterModule } from '@angular/router';
   imports: [
     SharedModule,
     RouterModule.forChild([
-      { path: 'products', component: ProductListComponent },
-      { path: 'products/:id', component: ProductDetailComponent, resolve: { resolvedData: ProductResolveGuard } },
       {
-        path: 'products/:id/edit', component: ProductEditComponent, resolve: { resolvedData: ProductResolveGuard },
-        children: [
-          { path: '', redirectTo: 'info', pathMatch: 'full' },
-          { path: 'info', component: ProductEditInfoComponent },
-          { path: 'tags', component: ProductEditTagsComponent }
-        ]
+        path: 'products', component: ProductListComponent, children: [
+          { path: ':id', component: ProductDetailComponent, resolve: { resolvedData: ProductResolveGuard } },
+          {
+            path: ':id/edit', component: ProductEditComponent, resolve: { resolvedData: ProductResolveGuard },
+            children: [
+              { path: '', redirectTo: 'info', pathMatch: 'full' },
+              { path: 'info', component: ProductEditInfoComponent },
+              { path: 'tags', component: ProductEditTagsComponent }
+            ]
 
-      }
+          }
+        ]
+      },
     ])
   ],
   declarations: [
