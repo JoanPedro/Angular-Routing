@@ -1,3 +1,4 @@
+import { AuthGuard } from './../user/auth.guard';
 import { ProductEditTagsComponent } from './product-edit/product-edit-tags.component';
 import { ProductEditInfoComponent } from './product-edit/product-edit-info.component';
 import { ProductEditComponent } from './product-edit/product-edit.component';
@@ -9,7 +10,7 @@ import { NgModule } from '@angular/core';
 
 const routes: Routes = [
   {
-    path: 'products', children: [
+    path: 'products', canActivate: [AuthGuard], children: [
       { path: '', component: ProductListComponent },
       { path: ':id', component: ProductDetailComponent, resolve: { resolvedData: ProductResolveGuard } },
       {
