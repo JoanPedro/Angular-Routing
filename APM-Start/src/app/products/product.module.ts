@@ -25,7 +25,6 @@ import { RouterModule } from '@angular/router';
               { path: 'info', component: ProductEditInfoComponent },
               { path: 'tags', component: ProductEditTagsComponent }
             ]
-
           }
         ]
       },
