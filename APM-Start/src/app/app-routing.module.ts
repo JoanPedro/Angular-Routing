@@ -1,3 +1,4 @@
+import { SelectivePreloadModuleListStrategy } from './selective-strategy.service';
 import { AuthGuard } from './user/auth.guard';
 import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 import { NgModule } from '@angular/core';
@@ -8,7 +9,7 @@ import { lazyLoadProducts } from './products/product-lazy';
 
 const routes: Routes = [
   { path: 'welcome', component: WelcomeComponent },
-  { path: 'products', loadChildren: lazyLoadProducts, canActivate: [AuthGuard] },
+  { path: 'products', data: { preload: true }, loadChildren: lazyLoadProducts, canActivate: [AuthGuard] },
   { path: '', redirectTo: 'welcome', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];
@@ -17,7 +18,7 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(
     routes,
     {
-      preloadingStrategy: PreloadAllModules
+      preloadingStrategy: SelectivePreloadModuleListStrategy
     }
   )],
   exports: [RouterModule]
