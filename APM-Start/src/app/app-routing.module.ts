@@ -1,3 +1,4 @@
+import { AuthGuard } from './user/auth.guard';
 import { Routes, RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 
@@ -7,7 +8,7 @@ import { lazyLoadProducts } from './products/product-lazy';
 
 const routes: Routes = [
   { path: 'welcome', component: WelcomeComponent },
-  { path: 'products', loadChildren: lazyLoadProducts },
+  { path: 'products', loadChildren: lazyLoadProducts, canActivate: [AuthGuard] },
   { path: '', redirectTo: 'welcome', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];
